@@ -6,8 +6,8 @@ class EmployerForm(ModelForm):
     class Meta:
         model = Employer
         fields = [
-            'name',
             'lastname',
+            'name',
             'surname',
             'position',
             'punishment'
@@ -27,7 +27,6 @@ class ExaminationForm(ModelForm):
             'title',
             'mark',
             'limitations',
-            'plan_file',
-            'employees',
-            'files'
+            # 'plan_file',
         ]
+
