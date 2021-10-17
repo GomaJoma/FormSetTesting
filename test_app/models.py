@@ -3,7 +3,7 @@ from django.db import models
 
 class Examination(models.Model):
     title = models.CharField(max_length=20)
-    mark = models.IntegerField()
+    mark = models.IntegerField(default=0)
     limitations = models.CharField(max_length=50)
     plan_file = models.FileField(upload_to='plans')
 

@@ -23,17 +23,23 @@ def index(request, employer_extra=1, file_extra=1):
                         employer_object.examination = examination_object
                         employer_form.save()
                 else:
-                    raise ValidationError(employer_formset.non_form_errors())
+                    raise ValidationError(employer_formset.errors)
+                    # raise ValidationError(employer_formset.error_messages)
+                    # raise ValidationError(employer_formset.non_form_errors()
                 if file_formset.is_valid():
                     for file_form in file_formset:
                         file_object = file_form.save(commit=False)
                         file_object.examination = examination_object
                         file_form.save()
                 else:
-                    raise ValidationError(file_formset.non_form_errors())
+                    raise ValidationError(file_formset.errors())
+                    # raise ValidationError(file_formset.error_messages)
+                    # raise ValidationError(file_formset.non_form_errors())
             return redirect('index')
         else:
-            raise ValidationError(examination_formset.non_form_errors())
+            raise ValidationError(examination_formset.errors)
+            # raise ValidationError(examination_formset.error_messages)
+            # raise ValidationError(examination_formset.non_form_errors())
     else:
         employer_formset = EmployerFormSet(queryset=Employer.objects.none(), prefix='employer')
         file_formset = FileFormSet(queryset=File.objects.none(), prefix='file')
