@@ -1,17 +1,11 @@
-import os
-from django.conf import settings
 from django.db import models
-
-
-def files_path():
-    return os.path.join(settings.BASE_DIR, 'source/')
 
 
 class Examination(models.Model):
     title = models.CharField(max_length=20)
     mark = models.IntegerField()
     limitations = models.CharField(max_length=50)
-    plan_file = models.FileField(upload_to=files_path()+'plans')
+    plan_file = models.FileField(upload_to='plans')
 
     def __str__(self):
         return self.title
@@ -31,7 +25,7 @@ class Employer(models.Model):
 
 class File(models.Model):
     examination = models.ForeignKey(Examination, on_delete=models.CASCADE)
-    data = models.FileField(upload_to=files_path()+'files')
+    data = models.FileField(upload_to='files')
 
     def __str__(self):
         return str(self.examination)

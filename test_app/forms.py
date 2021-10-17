@@ -27,6 +27,6 @@ class ExaminationForm(ModelForm):
             'title',
             'mark',
             'limitations',
-            # 'plan_file',
+            'plan_file',
         ]
 

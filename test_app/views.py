@@ -8,12 +8,12 @@ from .models import Employer, File, Examination
 def index(request, employer_extra=1, file_extra=1):
     EmployerFormSet = modelformset_factory(Employer, form=EmployerForm, extra=employer_extra)
     FileFormSet = modelformset_factory(File, form=FileForm, extra=file_extra)
-    ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm, extra=1)
+    ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm)
 
     if request.method == "POST":
-        employer_formset = EmployerFormSet(request.POST or None)
-        file_formset = FileFormSet(request.POST or None)
-        examination_formset = ExaminationFormSet(request.POST or None)
+        employer_formset = EmployerFormSet(request.POST or None, prefix='employer')
+        file_formset = FileFormSet(request.POST or None, request.FILES, prefix='file')
+        examination_formset = ExaminationFormSet(request.POST or None, request.FILES, prefix='examination')
         if examination_formset.is_valid():
             for examination_form in examination_formset:
                 examination_object = examination_form.save()
@@ -23,21 +23,21 @@ def index(request, employer_extra=1, file_extra=1):
                         employer_object.examination = examination_object
                         employer_form.save()
                 else:
-                    raise ValidationError('Validation error descry in EmployerFormSet')
+                    raise ValidationError(employer_formset.non_form_errors())
                 if file_formset.is_valid():
                     for file_form in file_formset:
                         file_object = file_form.save(commit=False)
                         file_object.examination = examination_object
                         file_form.save()
                 else:
-                    raise ValidationError('Validation error descry in FileFormSet')
+                    raise ValidationError(file_formset.non_form_errors())
             return redirect('index')
         else:
-            raise ValidationError('Validation error descry in ExaminationFormSet')
+            raise ValidationError(examination_formset.non_form_errors())
     else:
-        employer_formset = EmployerFormSet(queryset=Employer.objects.none())
-        file_formset = FileFormSet(queryset=File.objects.none())
-        examination_formset = ExaminationFormSet(queryset=Examination.objects.none())
+        employer_formset = EmployerFormSet(queryset=Employer.objects.none(), prefix='employer')
+        file_formset = FileFormSet(queryset=File.objects.none(), prefix='file')
+        examination_formset = ExaminationFormSet(queryset=Examination.objects.none(), prefix='examination')
 
     context = {
         'employer_formset': employer_formset,

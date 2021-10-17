@@ -6,8 +6,12 @@
 	<title>Home</title>
 </head>
 <body>
-	<form method="POST" id="form">
+	<form method="POST" id="form" enctype="multipart/form-data">
 		{% csrf_token %}
+		{{ examination_formset.management_form }}
+		{{ employer_formset.management_form }}
+		{{ file_formset.management_form }}
+
 		{{ examination_formset.as_p }}
 		{{ employer_formset.as_p }}
 		<button type="button" onclick="add_field({{ employer_extra }}, {{ file_extra }})">Add</button>
