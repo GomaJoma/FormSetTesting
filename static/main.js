@@ -37,12 +37,13 @@ function append_item(formset) {
     }
 
     InsertTotalFormNum(formset, form_counter);
+    let div = document.createElement('div');
+    div.id = `${formset}-${form_counter-1}`;
 
     for (let i = 0; i < parameters.length; i++) {
         let p = document.createElement('p');
         let label = document.createElement('label');
         let input = document.createElement('input');
-        p.id = `${formset}-${form_counter-1}`;
         label.htmlFor = `id_${formset}-${form_counter-1}-` + parameters[i];
         label.innerHTML = `${ucFirst(parameters[i])}: `;
 
@@ -66,9 +67,10 @@ function append_item(formset) {
             hidden_input.id = `id_${formset}-${form_counter-1}-id`;
             p.appendChild(hidden_input)
         }
-        let insertPosition = GetInsertPosition(formset);
-        insertPosition.appendChild(p);
+        div.appendChild(p);
     }
+    let insertPosition = GetInsertPosition(formset);
+    insertPosition.appendChild(div);
 }
 function delete_item(formset) {
     if (formset === 'employer') {
