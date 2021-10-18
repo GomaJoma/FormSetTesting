@@ -39,6 +39,7 @@ function append_item(formset) {
     InsertTotalFormNum(formset, form_counter);
     let div = document.createElement('div');
     div.id = `${formset}-${form_counter-1}`;
+    div.className = "formset-item";
 
     for (let i = 0; i < parameters.length; i++) {
         let p = document.createElement('p');
@@ -74,21 +75,26 @@ function append_item(formset) {
 }
 function delete_item(formset) {
     if (formset === 'employer') {
-                employer_form_counter--;
-
-        form_counter = employer_form_counter;
+        if (employer_form_counter === 1) form_counter = employer_form_counter;
+        else {
+            employer_form_counter--;
+            form_counter = employer_form_counter;
+        }
     }
     else if (formset === 'file') {
-                file_form_counter--;
-
-        form_counter = file_form_counter;
+        if (file_form_counter === 1) form_counter = file_form_counter;
+        else {
+            file_form_counter--;
+            form_counter = file_form_counter;
+        }
     }
 
-    let nested_node = document.getElementById(`${formset}-${form_counter}`);
-    if (nested_node.parentNode) {
-      nested_node.parentNode.removeChild(nested_node);
-    }
-    if (form_counter === 1) {
+    if (document.getElementById(`${formset}-${form_counter}`)) {
+        let nested_node = document.getElementById(`${formset}-${form_counter}`);
+        if (nested_node.parentNode) {
+          nested_node.parentNode.removeChild(nested_node);
+        }
         InsertTotalFormNum(formset, form_counter);
     }
+
 }

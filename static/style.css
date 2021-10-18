@@ -1,0 +1,8 @@
+.formset {
+    display: flex;
+    justify-content: start;
+}
+
+.formset-item {
+    margin-right: 40px;
+}

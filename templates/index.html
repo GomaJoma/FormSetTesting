@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{%  static 'style.css' %}">
 	<title>Home</title>
 </head>
 <body>
@@ -13,13 +14,13 @@
 		{{ file_formset.management_form }}
 
 		{{ examination_formset.as_p }}
-		<div id="employer_formset">
-			{{ employer_formset.as_p }}
+		<div class="formset" id="employer_formset">
+			<div class="formset-item">{{ employer_formset.as_p }}</div>
 		</div>
 		<button type="button" onclick="append_item('employer')">Append</button>
 		<button type="button" onclick="delete_item('employer')">Delete</button>
-		<div id="file_formset">
-			{{ file_formset.as_p }}
+		<div class="formset" id="file_formset">
+			<div>{{ file_formset.as_p }}</div>
 		</div>
 		<button type="button" onclick="append_item('file')">Append</button>
 		<button type="button" onclick="delete_item('file')">Delete</button>
