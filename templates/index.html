@@ -17,10 +17,12 @@
 			{{ employer_formset.as_p }}
 		</div>
 		<button type="button" onclick="append_item('employer')">Append</button>
+		<button type="button" onclick="delete_item('employer')">Delete</button>
 		<div id="file_formset">
 			{{ file_formset.as_p }}
 		</div>
 		<button type="button" onclick="append_item('file')">Append</button>
+		<button type="button" onclick="delete_item('file')">Delete</button>
 		<br><br>
 		<input type="submit" value="Submit">
 	</form>
