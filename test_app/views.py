@@ -5,9 +5,9 @@ from .forms import EmployerForm, FileForm, ExaminationForm
 from .models import Employer, File, Examination
 
 
-def index(request, employer_extra=1, file_extra=1):
-    EmployerFormSet = modelformset_factory(Employer, form=EmployerForm, extra=employer_extra)
-    FileFormSet = modelformset_factory(File, form=FileForm, extra=file_extra)
+def index(request):
+    EmployerFormSet = modelformset_factory(Employer, form=EmployerForm)
+    FileFormSet = modelformset_factory(File, form=FileForm)
     ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm)
 
     if request.method == "POST":
@@ -32,9 +32,10 @@ def index(request, employer_extra=1, file_extra=1):
                         file_object.examination = examination_object
                         file_form.save()
                 else:
-                    raise ValidationError(file_formset.errors())
-                    # raise ValidationError(file_formset.error_messages)
+                    # raise ValidationError(file_formset.errors)
+                    raise ValidationError(file_formset.error_messages)
                     # raise ValidationError(file_formset.non_form_errors())
+            print(request.POST)
             return redirect('index')
         else:
             raise ValidationError(examination_formset.errors)
@@ -49,7 +50,6 @@ def index(request, employer_extra=1, file_extra=1):
         'employer_formset': employer_formset,
         'file_formset': file_formset,
         'examination_formset': examination_formset,
-        'employer_extra': employer_extra,
-        'file_extra': file_extra,
+        'em_fs_len': range(len(employer_formset)),
     }
     return render(request, 'index.html', context)

@@ -13,13 +13,15 @@
 		{{ file_formset.management_form }}
 
 		{{ examination_formset.as_p }}
-		{{ employer_formset.as_p }}
-		<button type="button" onclick="add_field({{ employer_extra }}, {{ file_extra }})">Add</button>
-		<button type="button" onclick="delete_field({{ employer_extra }}, {{ file_extra }})">Delete</button>
-		{{ file_formset.as_p }}
-		<button type="button" onclick="add_file_field({{ employer_extra }}, {{ file_extra }})">AddFile</button>
-		<button type="button" onclick="delete_file_field({{ employer_extra }}, {{ file_extra }})">DeleteFile</button>
-			<br><br>
+		<div id="employer_formset">
+			{{ employer_formset.as_p }}
+		</div>
+		<button type="button" onclick="append_item('employer')">Append</button>
+		<div id="file_formset">
+			{{ file_formset.as_p }}
+		</div>
+		<button type="button" onclick="append_item('file')">Append</button>
+		<br><br>
 		<input type="submit" value="Submit">
 	</form>
 	<script src="{% static 'main.js' %}"></script>
