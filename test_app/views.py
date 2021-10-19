@@ -1,14 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 from django.forms import modelformset_factory
 from django.core.exceptions import ValidationError
 from .forms import EmployerForm, FileForm, ExaminationForm
 from .models import Employer, File, Examination
 
 
-def index(request):
-    EmployerFormSet = modelformset_factory(Employer, form=EmployerForm)
-    FileFormSet = modelformset_factory(File, form=FileForm)
-    ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm)
+def index(request, ex_title=''):
+    if Examination.objects.filter(title=ex_title):
+        EmployerFormSet = modelformset_factory(Employer, form=EmployerForm, extra=0)
+        FileFormSet = modelformset_factory(File, form=FileForm, extra=0)
+        ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm, extra=0)
+    else:
+        if request.path == '/':
+            EmployerFormSet = modelformset_factory(Employer, form=EmployerForm)
+            FileFormSet = modelformset_factory(File, form=FileForm)
+            ExaminationFormSet = modelformset_factory(Examination, form=ExaminationForm)
+        else:
+            raise Http404
 
     if request.method == "POST":
         employer_formset = EmployerFormSet(request.POST or None, prefix='employer')
@@ -41,6 +49,10 @@ def index(request):
             raise ValidationError(examination_formset.errors)
             # raise ValidationError(examination_formset.error_messages)
             # raise ValidationError(examination_formset.non_form_errors())
+    elif ex_title:
+        employer_formset = EmployerFormSet(queryset=Employer.objects.filter(examination__title=ex_title), prefix='employer')
+        file_formset = FileFormSet(queryset=File.objects.filter(examination__title=ex_title), prefix='file')
+        examination_formset = ExaminationFormSet(queryset=Examination.objects.filter(title=ex_title), prefix='examination')
     else:
         employer_formset = EmployerFormSet(queryset=Employer.objects.none(), prefix='employer')
         file_formset = FileFormSet(queryset=File.objects.none(), prefix='file')

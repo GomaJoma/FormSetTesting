@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('<str:ex_title>', views.index, name='edit'),
 ]
 
 if settings.DEBUG:

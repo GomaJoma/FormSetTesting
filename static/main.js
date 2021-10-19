@@ -1,6 +1,6 @@
 "use strict";
 let form_counter = 1;
-let employer_form_counter = 2;
+let employer_form_counter = 1;
 let file_form_counter = 1;
 
 function GetInsertPosition(formset) {
